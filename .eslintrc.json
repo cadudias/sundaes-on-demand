@@ -8,6 +8,5 @@
     "testing-library/prefer-presence-queries": "error",
     "testing-library/prefer-screen-queries": "error",
     "testing-library/prefer-wait-for": "error"
-  },
-  "parser": "babel-eslint"
+  }
 }
