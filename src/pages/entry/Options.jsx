@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react"
-import axios  from "axios"
-import Row from 'react-bootstrap/Row'
+import axios from "axios"
+import Row from "react-bootstrap/Row"
 import ScoopOption from "./ScoopOption"
 import ToppingOption from "./ToppingOption"
+import AlertBanner from '../common/AlertBanner';
 
 export default function Options({ optionType }) {
   const [items, setItems] = useState([])
+  const [error, setError] = useState(false);
 
   // will run once on compoennt mount and
   // again when optionType changes
@@ -13,10 +15,12 @@ export default function Options({ optionType }) {
     axios
       .get(`http://localhost:3030/${optionType}`)
       .then((response) => setItems(response.data))
-      .catch((error) => {
-        // TODO: handle error
-      })
+      .catch(() => setError(true))
   }, [optionType])
+
+  if (error) {
+    return <AlertBanner />
+  }
 
   const ItemComponent = optionType === "scoops" ? ScoopOption : ToppingOption
 
@@ -27,7 +31,7 @@ export default function Options({ optionType }) {
       name={item.name}
       imagePath={item.imagePath}
     />
-  ));
+  ))
 
   return <Row>{optionItems}</Row>
 }
